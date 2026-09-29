@@ -1,0 +1,157 @@
+<script>
+  const tgLink = "https://t.me/+2C6LVEzV0go0YzBl";
+
+  // Complete 25 VVI Questions Data
+  const quizQuestions = [
+    { q: "1857 ke vidroh ke samay Jagdishpur (Bihar) se netritva kisne pradan kiya tha?", opts: ["Amar Singh", "Peer Ali", "Veer Kunwar Singh", "Nawab Ali"], a: 2 },
+    { q: "1857 ki kranti ke samay Bharat ka Governor-General kaun tha?", opts: ["Lord Dalhousie", "Lord Canning", "Lord Curzon", "Lord Ripon"], a: 1 },
+    { q: "1857 ke vidroh ka prateek (symbol) kya tha?", opts: ["Kamal aur Roti", "Gulaab aur Roti", "Teer aur Kaman", "Talwar"], a: 0 },
+    { q: "Bihar ke Patna se 1857 ke vidroh ka netritva kisne kiya tha?", opts: ["Veer Kunwar Singh", "Peer Ali", "Bisheshwar Singh", "Amar Singh"], a: 1 },
+    { q: "1857 ki kranti ki shuruat sabse pehle kahan se hui thi?", opts: ["Delhi", "Kanpur", "Meerut", "Jhansi"], a: 2 },
+    { q: "Mangal Pandey kis Regiment ke sipahi the?", opts: ["34th Native Infantry", "19th Native Infantry", "20th Native Infantry", "11th Native Infantry"], a: 0 },
+    { q: "1857 ke vidroh ke samay Britain ke Pradhan Mantri kaun the?", opts: ["Churchill", "Lord Palmerston", "Atlee", "Gladstone"], a: 1 },
+    { q: "Kanpur se 1857 ke vidroh ka netritva kisne kiya tha?", opts: ["Nana Saheb", "Tantia Tope", "Begum Hazrat Mahal", "Rani Laxmi Bai"], a: 0 },
+    { q: "Lucknow se 1857 ke vidroh ka netritva kisne kiya tha?", opts: ["Rani Laxmi Bai", "Begum Hazrat Mahal", "Liyakat Ali", "Khan Bahadur Khan"], a: 1 },
+    { q: "Jhansi me vidroh ko dabane wala Angrej adhikari kaun tha?", opts: ["Campbell", "Hugh Rose", "Outram", "Nicholson"], a: 1 },
+    { q: "1857 ke vidroh ko 'Bharat ka Pratham Swatantrata Sangram' kisne kaha tha?", opts: ["R.C. Majumdar", "V.D. Savarkar", "S.N. Sen", "Jawaharlal Nehru"], a: 1 },
+    { q: "Bareilly se 1857 ke vidroh ka netritva kisne kiya tha?", opts: ["Khan Bahadur Khan", "Maulvi Ahmadullah", "Kunwar Singh", "Nana Saheb"], a: 0 },
+    { q: "Faizabad se vidroh ka netritva karne wale Maulvi Ahmadullah par Angrezo ne kitne ka inam rakha tha?", opts: ["20 Hazaare", "50 Hazaare", "1 Lakh", "5 Lakh"], a: 1 },
+    { q: "1857 ke vidroh ke baad Bahadur Shah Zafar ko kahan nirvāsit kar diya gaya tha?", opts: ["Rangoon", "Andaman", "London", "Nepal"], a: 0 },
+    { q: "Allahabad (Prayagraj) se 1857 ki kranti ka netritva kisne kiya tha?", opts: ["Liyakat Ali", "Kadam Singh", "Devi Singh", "Tatar Khan"], a: 0 },
+    { q: "Kunwar Singh ne apna antim yuddh kis Angrej senapati ke khilaf lada tha?", opts: ["Le Grand", "Vincent Eyre", "Taylor", "Lugard"], a: 0 },
+    { q: "1857 ki kranti ka sarkari itihaskar (Official Historian) kaun tha?", opts: ["Tarachand", "S.N. Sen", "R.C. Majumdar", "V.D. Savarkar"], a: 1 },
+    { q: "1857 ke vidroh ke vaastavik senapati Tantia Tope ka asli naam kya tha?", opts: ["Ramchandra Pandurang", "Dhondu Pant", "Narendra Nath", "Mool Shankar"], a: 0 },
+    { q: "Gwalior me Rani Laxmi Bai ne kiske sath milkar vidroh kiya tha?", opts: ["Nana Saheb", "Tantia Tope", "Kunwar Singh", "Bhakth Khan"], a: 1 },
+    { q: "1857 ki kranti ke samay Delhi me sainik netritva kisne kiya tha?", opts: ["Bahadur Shah Zafar", "Bakht Khan", "Hakim Ahsanullah", "Zeenat Mahal"], a: 1 },
+    { q: "Maharani Victoria ka ghoshnapatra 1 November 1858 ko kahan padhkar sunaya gaya tha?", opts: ["Delhi", "Calcutta", "Allahabad", "Bombay"], a: 2 },
+    { q: "1857 ke vidroh ki jaanch ke liye kis Commission ka gathan kiya gaya tha?", opts: ["Hunter Commission", "Peel Commission", "Simon Commission", "Simon-Peel Commission"], a: 1 },
+    { q: "1857 ke vidroh me kis rajvansh ne Angrezo ki sabse zyada madad ki thi?", opts: ["Gwalior ke Scindia", "Indore ke Holkar", "Hyderabad ke Nizam", "Bhopal ke Nawab"], a: 0 },
+    { q: "Kunwar Singh ki mrityu kab hui thi?", opts: ["26 April 1858", "9 May 1858", "18 June 1858", "15 August 1858"], a: 0 },
+    { q: "1857 ki kranti ki nishchit tithi kya tay ki gayi thi?", opts: ["10 May 1857", "31 May 1857", "15 June 1857", "12 May 1857"], a: 1 }
+  ];
+
+  let currentIdx = 0;
+  let selectedOpts = new Array(quizQuestions.length).fill(null);
+  let hasClickedJoin = false;
+
+  window.onload = function() {
+    if (localStorage.getItem("isMemberUnlocked") === "true") {
+      unlockQuizAutomatically();
+    }
+    renderCurrentQ();
+  };
+
+  // Jab user Join Telegram par click kare
+  function handleTgClick() {
+    hasClickedJoin = true;
+    sessionStorage.setItem("clickedTg", "true");
+  }
+
+  // Auto Detect - User jab Telegram se wapas page par aayega tab auto start ho jayega
+  window.addEventListener("focus", function() {
+    if (hasClickedJoin || sessionStorage.getItem("clickedTg") === "true") {
+      unlockQuizAutomatically();
+    }
+  });
+
+  document.addEventListener("visibilitychange", function() {
+    if (!document.hidden && (hasClickedJoin || sessionStorage.getItem("clickedTg") === "true")) {
+      unlockQuizAutomatically();
+    }
+  });
+
+  function unlockQuizAutomatically() {
+    localStorage.setItem("isMemberUnlocked", "true");
+    const modal = document.getElementById("tgJoinModal");
+    const quizWrapper = document.getElementById("quizMainWrapper");
+
+    if (modal) modal.style.display = "none";
+    if (quizWrapper) quizWrapper.classList.remove("locked-content");
+  }
+
+  function renderCurrentQ() {
+    const data = quizQuestions[currentIdx];
+    document.getElementById("questionLabel").innerText = `Question ${currentIdx + 1}`;
+    document.getElementById("questionBody").innerText = data.q;
+    document.getElementById("counterText").innerText = `${currentIdx + 1} / ${quizQuestions.length}`;
+
+    const pct = ((currentIdx + 1) / quizQuestions.length) * 100;
+    document.getElementById("progressFillBar").style.width = `${pct}%`;
+
+    const optionsBox = document.getElementById("optionsContainer");
+    optionsBox.innerHTML = "";
+
+    const prefixes = ["A.", "B.", "C.", "D."];
+    data.opts.forEach((optText, i) => {
+      const button = document.createElement("button");
+      button.className = "option-pill";
+      button.innerHTML = `<span style="min-width:30px;">${prefixes[i]}</span> <span>${optText}</span>`;
+
+      if (selectedOpts[currentIdx] !== null) {
+        if (i === data.a) button.classList.add("correct-ans");
+        if (selectedOpts[currentIdx] === i && i !== data.a) button.classList.add("wrong-ans");
+      } else {
+        button.onclick = () => selectOption(i);
+      }
+
+      optionsBox.appendChild(button);
+    });
+
+    document.getElementById("backBtn").disabled = currentIdx === 0;
+    document.getElementById("nextBtn").innerText = currentIdx === quizQuestions.length - 1 ? "Finish" : "Next";
+
+    updateBadges();
+  }
+
+  function selectOption(index) {
+    if (selectedOpts[currentIdx] !== null) return;
+    selectedOpts[currentIdx] = index;
+    renderCurrentQ();
+  }
+
+  function updateBadges() {
+    let correctCount = 0;
+    let wrongCount = 0;
+
+    selectedOpts.forEach((ans, idx) => {
+      if (ans !== null) {
+        if (ans === quizQuestions[idx].a) correctCount++;
+        else wrongCount++;
+      }
+    });
+
+    document.getElementById("correctBadge").innerText = `✓ ${correctCount}`;
+    document.getElementById("wrongBadge").innerText = `✕ ${wrongCount}`;
+  }
+
+  function nextQ() {
+    if (currentIdx < quizQuestions.length - 1) {
+      currentIdx++;
+      renderCurrentQ();
+    } else {
+      alert("Quiz Completed! Final Score: " + document.getElementById("correctBadge").innerText);
+    }
+  }
+
+  function prevQ() {
+    if (currentIdx > 0) {
+      currentIdx--;
+      renderCurrentQ();
+    }
+  }
+
+  function triggerShare() {
+    const pageUrl = window.location.href;
+    const shareMsg = `1857 Ki Kranti: 25 VVI MCQs for BPSC TRE 4.0\n\nQuiz solve karne ke liye link par click karein aur Telegram Join karein:\n${tgLink}`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Gyankshetra Quiz',
+        text: shareMsg,
+        url: pageUrl
+      });
+    } else {
+      window.open(`https://t.me/share/url?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(shareMsg)}`, '_blank');
+    }
+  }
+</script>
